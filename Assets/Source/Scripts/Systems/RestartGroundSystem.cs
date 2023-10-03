@@ -4,7 +4,7 @@ using UnityEngine;
 public class RestartGroundSystem : IEcsRunSystem
 {
     private LevelConfig _levelConfig;
-    private EcsFilter<RestartedEvent, GroundTag, ModelComponent> _filter;
+    private EcsFilter<RestartEvent, GroundTag, ModelComponent> _filter;
 
     public void Run()
     {

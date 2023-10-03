@@ -2,7 +2,7 @@
 
 public class RestartEnemiesSystem : IEcsRunSystem
 {
-    private EcsFilter<RestartedEvent, EnemyTag> _filter;
+    private EcsFilter<RestartEvent, EnemyTag> _filter;
 
     public void Run()
     {

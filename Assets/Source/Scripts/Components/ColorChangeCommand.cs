@@ -3,13 +3,11 @@
 internal struct ColorChangeCommand
 {
     public Color FinalColor;
-    public SpriteRenderer SpriteRenderer;
     public float Duration;
 
-    public ColorChangeCommand(Color finalColor, SpriteRenderer spriteRenderer, float duration)
+    public ColorChangeCommand(Color finalColor, float duration)
     {
         FinalColor = finalColor;
-        SpriteRenderer = spriteRenderer;
         Duration = duration;
     }
 }

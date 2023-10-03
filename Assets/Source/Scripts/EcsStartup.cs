@@ -37,8 +37,7 @@ public class EcsStartup : MonoBehaviour
             .OneFrame<ChangeLineCommand>()
             .OneFrame<LineChangedEvent>()
             .OneFrame<MoveStoppedEvent>()
-            .OneFrame<RestartedEvent>()
-            .OneFrame<ColorChangeCommand>();
+            .OneFrame<RestartEvent>();
     }
 
     private void AddSystems()
@@ -56,7 +55,9 @@ public class EcsStartup : MonoBehaviour
             .Add(new EnemyMoveStoppedHandlerSystem())
             .Add(new PlayerDiedEventHandler())
             .Add(new RestartEnemiesSystem())
-            .Add(new RestartGroundSystem());
+            .Add(new RestartGroundSystem())
+            .Add(new ChangeColorSystem())
+            .Add(new RestartBackgroundSystem());
     }
 
     private void Update()

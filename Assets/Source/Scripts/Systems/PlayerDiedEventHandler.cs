@@ -21,7 +21,7 @@ public class PlayerDiedEventHandler : IEcsRunSystem
         foreach (int i in _filterRestartedElements)
         {
             ref EcsEntity restartedEntity = ref _filterRestartedElements.GetEntity(i);
-            restartedEntity.Get<RestartedEvent>();
+            restartedEntity.Get<RestartEvent>();
         }
     }
 }
