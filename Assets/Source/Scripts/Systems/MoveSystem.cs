@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MoveSystem : IEcsRunSystem
 {
-    private EcsFilter<ModelComponent, MoveableComponent> _filter;
+    private EcsFilter<ModelComponent, MoveableComponent>.Exclude<PauseEvent> _filter;
 
     public void Run()
     {

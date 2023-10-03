@@ -3,7 +3,7 @@
 public class PlayerDiedEventHandler : IEcsRunSystem
 {
     private EcsFilter<PlayerDiedEvent, ModelComponent> _filter;
-    private EcsFilter<ModelComponent> _filterRestartedElements;
+    private EcsFilter<ModelComponent> _filterModel;
 
     public void Run()
     {
@@ -18,9 +18,15 @@ public class PlayerDiedEventHandler : IEcsRunSystem
 
     private void RestartLevel()
     {
-        foreach (int i in _filterRestartedElements)
+        foreach (int i in _filterModel)
         {
-            ref EcsEntity restartedEntity = ref _filterRestartedElements.GetEntity(i);
+            ref EcsEntity restartedEntity = ref _filterModel.GetEntity(i);
+            restartedEntity.Get<PauseEvent>();
+        }
+
+        foreach (int i in _filterModel)
+        {
+            ref EcsEntity restartedEntity = ref _filterModel.GetEntity(i);
             restartedEntity.Get<RestartEvent>();
         }
     }

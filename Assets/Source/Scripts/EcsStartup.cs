@@ -37,27 +37,29 @@ public class EcsStartup : MonoBehaviour
             .OneFrame<ChangeLineCommand>()
             .OneFrame<LineChangedEvent>()
             .OneFrame<MoveStoppedEvent>()
-            .OneFrame<RestartEvent>();
+            .OneFrame<RestartEvent>()
+            .OneFrame<PauseEvent>();
     }
 
     private void AddSystems()
     {
         _systems
             .Add(new BackgroundInitSystem())
-            .Add(new BalloonInitSystem())
+            .Add(new PlayerInitSystem())
             .Add(new GroundInitSystem())
             .Add(new UserInputSystem())
+            .Add(new PlayerDiedEventHandler())
             .Add(new ChangeLineSystem())
             .Add(new LineChangeHandlerSystem())
             .Add(new MoveSystem())
             .Add(new SpawnEnemiesSystem())
             .Add(new StopMoveSystem())
             .Add(new EnemyMoveStoppedHandlerSystem())
-            .Add(new PlayerDiedEventHandler())
             .Add(new RestartEnemiesSystem())
             .Add(new RestartGroundSystem())
             .Add(new ChangeColorSystem())
-            .Add(new RestartBackgroundSystem());
+            .Add(new RestartBackgroundSystem())
+            .Add(new RestartPlayerSystem());
     }
 
     private void Update()

@@ -1,11 +1,10 @@
 ﻿using DG.Tweening;
 using Leopotam.Ecs;
-using UnityEngine;
 
 public class ChangeColorSystem : IEcsRunSystem
 {
     private EcsFilter<ColorChangeCommand, RenderedComponent> _filter;
-    private EcsFilter<ChangingColorComponent,RestartEvent> _restartedFilter;
+    private EcsFilter<ChangingColorComponent, PauseEvent> _pausedFilter;
 
     public void Run()
     {
@@ -24,10 +23,10 @@ public class ChangeColorSystem : IEcsRunSystem
             entity.Replace(changingColorComponent);
         }
 
-        foreach (int i in _restartedFilter)
+        foreach (int i in _pausedFilter)
         {
             ref EcsEntity entity = ref _filter.GetEntity(i);
-            ref ChangingColorComponent colorComponent = ref _restartedFilter.Get1(i);
+            ref ChangingColorComponent colorComponent = ref _pausedFilter.Get1(i);
             colorComponent.Tweener.Kill();
             entity.Del<ChangingColorComponent>();
         }

@@ -3,12 +3,13 @@ using Leopotam.Ecs;
 using System;
 using UnityEngine;
 
-public class SpawnEnemiesSystem : IEcsInitSystem
+public class SpawnEnemiesSystem : IEcsInitSystem, IEcsRunSystem
 {
     private EcsWorld _ecsWorld;
     private LevelConfig _levelConfig;
     private EnemiesConfig _enemiesConfig;
-    private EcsFilter<ModelComponent, MoveableComponent> _filter;
+    private EcsFilter<PauseEvent, PlayerTag> _pauseFilter;
+    private EcsFilter<RestartEvent, PlayerTag> _restartFilter;
 
     private Pool<EnemyBase, EnemyType> _enemiesPool;
     private Sequence _spawnSequence;
@@ -46,7 +47,7 @@ public class SpawnEnemiesSystem : IEcsInitSystem
         });
     }
 
-    public void StopSpawnEnemies()
+    private void StopSpawnEnemies()
     {
         _spawnSequence.Kill();
     }
@@ -71,6 +72,21 @@ public class SpawnEnemiesSystem : IEcsInitSystem
         EnemyBase enemyBase = UnityEngine.Object.Instantiate(enemyPrefab,
             Vector2.zero, Quaternion.identity);
         return enemyBase;
+    }
+
+    public void Run()
+    {
+        foreach (int i in _pauseFilter)
+        {
+            StopSpawnEnemies();
+            break;
+        }
+
+        foreach (int i in _restartFilter)
+        {
+            StartSpawnEnemies();
+            break;
+        }
     }
 }
     
