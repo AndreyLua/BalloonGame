@@ -4,7 +4,7 @@ using UnityEngine;
 public class UserInputSystem : IEcsRunSystem
 {
     private UserInputConfig _userInputConfig;
-    private EcsFilter<PlayerTag> _filter;
+    private EcsFilter<PlayerTag>.Exclude<Paused> _filter;
 
     private Vector2 _startSleshPosition;
     private bool _isMouseHold;

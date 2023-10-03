@@ -1,0 +1,1 @@
+﻿internal struct PausedEvent { }

@@ -8,11 +8,12 @@ public class SpawnEnemiesSystem : IEcsInitSystem, IEcsRunSystem
     private EcsWorld _ecsWorld;
     private LevelConfig _levelConfig;
     private EnemiesConfig _enemiesConfig;
-    private EcsFilter<PauseEvent, PlayerTag> _pauseFilter;
+    private EcsFilter<Paused, PlayerTag> _pauseFilter;
     private EcsFilter<RestartEvent, PlayerTag> _restartFilter;
 
     private Pool<EnemyBase, EnemyType> _enemiesPool;
     private Sequence _spawnSequence;
+
 
     public void Init()
     {
@@ -76,17 +77,21 @@ public class SpawnEnemiesSystem : IEcsInitSystem, IEcsRunSystem
 
     public void Run()
     {
-        foreach (int i in _pauseFilter)
+        if (_spawnSequence.active)
         {
-            StopSpawnEnemies();
-            break;
+            foreach (int i in _pauseFilter)
+            {
+                StopSpawnEnemies();
+                break;
+            }
         }
-
-        foreach (int i in _restartFilter)
+        else
         {
-            StartSpawnEnemies();
-            break;
+            foreach (int i in _restartFilter)
+            {
+                StartSpawnEnemies();
+                break;
+            }
         }
     }
 }
-    

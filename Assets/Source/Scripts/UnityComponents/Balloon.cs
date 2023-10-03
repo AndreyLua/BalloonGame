@@ -1,7 +1,7 @@
 ﻿using Leopotam.Ecs;
 using UnityEngine;
 
-public class Balloon : EntityMonoBehaviourBase
+public class Balloon : EntityReference
 {
     private Trigger2DChecker _trigger;
     private EcsEntity _ecsEntity;

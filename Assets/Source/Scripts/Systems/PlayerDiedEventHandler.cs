@@ -1,9 +1,10 @@
-﻿using Leopotam.Ecs;
+﻿using DG.Tweening;
+using Leopotam.Ecs;
 
 public class PlayerDiedEventHandler : IEcsRunSystem
 {
     private EcsFilter<PlayerDiedEvent, ModelComponent> _filter;
-    private EcsFilter<ModelComponent> _filterModel;
+    private EcsFilter<LevelTag> _filterLevel;
 
     public void Run()
     {
@@ -11,23 +12,25 @@ public class PlayerDiedEventHandler : IEcsRunSystem
         {
             ref EcsEntity entity = ref _filter.GetEntity(i);
             entity.Del<PlayerDiedEvent>();
-            RestartLevel();
-            return;
+            PausedLevel();
+            break;
         }
     }
 
-    private void RestartLevel()
+    private void PausedLevel()
     {
-        foreach (int i in _filterModel)
+        foreach (int i in _filterLevel)
         {
-            ref EcsEntity restartedEntity = ref _filterModel.GetEntity(i);
-            restartedEntity.Get<PauseEvent>();
+            ref EcsEntity entity = ref _filterLevel.GetEntity(i);
+            entity.Get<PausedEvent>();
         }
-
-        foreach (int i in _filterModel)
+        DOTween.Sequence().AppendInterval(3).AppendCallback(() =>
         {
-            ref EcsEntity restartedEntity = ref _filterModel.GetEntity(i);
-            restartedEntity.Get<RestartEvent>();
-        }
+            foreach (int i in _filterLevel)
+            {
+                ref EcsEntity entity = ref _filterLevel.GetEntity(i);
+                entity.Get<RestartLevelEvent>();
+            }
+        });
     }
 }

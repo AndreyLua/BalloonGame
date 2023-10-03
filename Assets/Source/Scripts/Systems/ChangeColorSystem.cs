@@ -4,7 +4,7 @@ using Leopotam.Ecs;
 public class ChangeColorSystem : IEcsRunSystem
 {
     private EcsFilter<ColorChangeCommand, RenderedComponent> _filter;
-    private EcsFilter<ChangingColorComponent, PauseEvent> _pausedFilter;
+    private EcsFilter<ChangingColorComponent, Paused> _pausedFilter;
 
     public void Run()
     {

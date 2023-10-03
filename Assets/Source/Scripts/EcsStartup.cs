@@ -38,17 +38,20 @@ public class EcsStartup : MonoBehaviour
             .OneFrame<LineChangedEvent>()
             .OneFrame<MoveStoppedEvent>()
             .OneFrame<RestartEvent>()
-            .OneFrame<PauseEvent>();
+            .OneFrame<PausedEvent>();
     }
 
     private void AddSystems()
     {
         _systems
+            .Add(new LevelInitSystem())
             .Add(new BackgroundInitSystem())
             .Add(new PlayerInitSystem())
             .Add(new GroundInitSystem())
             .Add(new UserInputSystem())
             .Add(new PlayerDiedEventHandler())
+            .Add(new LevelPausedHandlerSystem())
+            .Add(new LevelRestartHandlerSystem())
             .Add(new ChangeLineSystem())
             .Add(new LineChangeHandlerSystem())
             .Add(new MoveSystem())
