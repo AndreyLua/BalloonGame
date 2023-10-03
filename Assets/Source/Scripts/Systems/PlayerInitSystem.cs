@@ -12,7 +12,7 @@ public class PlayerInitSystem : IEcsInitSystem
 
         Balloon balloon = Object.Instantiate(_balloonConfig.Prefab, _balloonConfig.StartPosition, Quaternion.identity);
 
-        ModelComponent model = new ModelComponent(balloon.transform);
+        ModelComponent model = new ModelComponent(balloon.Rigidbody2D.transform);
         LineComponent line = new LineComponent(LineType.Middle);
 
         playerEntity.Get<PlayerTag>();
