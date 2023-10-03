@@ -14,7 +14,7 @@ public class BackgroundInitSystem : IEcsInitSystem
 
         ModelComponent model = new ModelComponent(background.transform);
         RenderedComponent rendered = new RenderedComponent(background.SpriteRenderer);
-        ColorChangeCommand colorCommand = new ColorChangeCommand(new Color(0.0234f, 0.0039f,0.1953f), 200);
+        ColorChangeCommand colorCommand = new ColorChangeCommand(new Color(0.0234f, 0.0039f,0.1953f), 50);
 
         backgroundEntity.Get<BackgroundTag>();
         backgroundEntity.Replace(model).Replace(colorCommand).Replace(rendered);

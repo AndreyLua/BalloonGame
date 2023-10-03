@@ -13,7 +13,7 @@ public class RestartBackgroundSystem : IEcsRunSystem
             ref RenderedComponent renderer = ref _filter.Get3(i);
 
             renderer.SpriteRenderer.color = new Color(0.789f, 0.945f, 0.996f);
-            ColorChangeCommand colorCommand = new ColorChangeCommand(new Color(0.0234f, 0.0039f, 0.1953f), 200);
+            ColorChangeCommand colorCommand = new ColorChangeCommand(new Color(0.0234f, 0.0039f, 0.1953f), 50);
 
             entity.Replace(colorCommand);
         }
