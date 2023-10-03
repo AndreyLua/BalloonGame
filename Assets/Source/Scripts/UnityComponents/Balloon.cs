@@ -4,6 +4,7 @@ using UnityEngine;
 public class Balloon : EntityMonoBehaviourBase
 {
     private Trigger2DChecker _trigger;
+    private EcsEntity _ecsEntity;
 
     private void Awake()
     {
@@ -13,11 +14,11 @@ public class Balloon : EntityMonoBehaviourBase
 
     public void OnTriggerEntered(Collider2D collider)
     {
-        Debug.Log("fdjklfsdjlsfjlkd");
+        _ecsEntity.Get<PlayerDiedEvent>();
     }
 
     public override void Init(EcsEntity entity)
     {
-       
+        _ecsEntity = entity;
     }
 }

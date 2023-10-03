@@ -15,6 +15,7 @@ public class GroundInitSystem : IEcsInitSystem
         ModelComponent model = new ModelComponent(ground.transform);
         MoveableComponent moveable = new MoveableComponent(Vector2.down, _levelConfig.Speed);
 
+        groundEntity.Get<GroundTag>();
         groundEntity.Replace(model).Replace(moveable);
     }
 }

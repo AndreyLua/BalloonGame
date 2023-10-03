@@ -8,6 +8,7 @@ public class SpawnEnemiesSystem : IEcsInitSystem
     private EcsWorld _ecsWorld;
     private LevelConfig _levelConfig;
     private EnemiesConfig _enemiesConfig;
+    private EcsFilter<ModelComponent, MoveableComponent> _filter;
 
     private Pool<EnemyBase, EnemyType> _enemiesPool;
     private Sequence _spawnSequence;
@@ -23,6 +24,23 @@ public class SpawnEnemiesSystem : IEcsInitSystem
         _spawnSequence = DOTween.Sequence().AppendInterval(_levelConfig.TimeToSpawnEnemy).AppendCallback(() =>
         {
             EnemyBase enemy = _enemiesPool.ExtractElement(EnemyType.Common);
+            enemy.gameObject.SetActive(true);
+
+            EcsEntity enemyEntity = _ecsWorld.NewEntity();
+
+            ModelComponent model = new ModelComponent(enemy.transform);
+            LineComponent line = new LineComponent(LineType.Left);
+            MoveableComponent moveable = new MoveableComponent(Vector2.down, _levelConfig.Speed);
+            EnemyTag tag = new EnemyTag(enemy);
+            
+            LineType lineType = GetRandomLineType();
+            line.LineType = lineType;
+            model.Transform.position = GetStartPosition(lineType);
+
+            enemyEntity.Replace(model)
+            .Replace(line)
+            .Replace(moveable)
+            .Replace(tag);
 
             StartSpawnEnemies();
         });
@@ -41,22 +59,17 @@ public class SpawnEnemiesSystem : IEcsInitSystem
         return randomLine;
     }
 
+    private Vector2 GetStartPosition(LineType lineType)
+    {
+        return new Vector2(_levelConfig.LineXPositionInTypePair[lineType], 6);
+    }
+
     private EnemyBase SpawnEnemy(EnemyType type)
     {
         EnemyBase enemyPrefab = _enemiesConfig.EnemyBaseInTypePairs[type];
-        EcsEntity enemyEntity = _ecsWorld.NewEntity();
-
-        LineType lineType = GetRandomLineType();
-        Vector2 position = new Vector2(_levelConfig.LineXPositionInTypePair[lineType], 6);
-
+       
         EnemyBase enemyBase = UnityEngine.Object.Instantiate(enemyPrefab,
-            position, Quaternion.identity);
-
-        ModelComponent model = new ModelComponent(enemyBase.transform);
-        LineComponent line = new LineComponent(lineType);
-        MoveableComponent moveable = new MoveableComponent(Vector2.down, _levelConfig.Speed);
-
-        enemyEntity.Replace(model).Replace(line).Replace(moveable);
+            Vector2.zero, Quaternion.identity);
         return enemyBase;
     }
 }

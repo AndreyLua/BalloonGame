@@ -4,7 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New LevelConfig", menuName = "LevelConfig")]
 public class LevelConfig : ScriptableObject
 {
+    public Background Background;
     public Ground GroundPrefab;
+    public Vector2 StartBackgroundPosition;
     public Vector2 StartGroundPosition;
     public float Speed;
     public float TimeToSpawnEnemy;

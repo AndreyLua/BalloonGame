@@ -1,9 +1,13 @@
-using Leopotam.Ecs;
+using UnityEngine;
 
-public class Background : EntityMonoBehaviourBase
+public class Background : MonoBehaviour
 {
-    public override void Init(EcsEntity entity)
+    private SpriteRenderer _spriteRenderer;
+
+    public SpriteRenderer SpriteRenderer => _spriteRenderer;
+
+    private void Awake()
     {
-        
+        _spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 }

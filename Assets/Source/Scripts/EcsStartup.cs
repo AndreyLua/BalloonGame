@@ -16,15 +16,35 @@ public class EcsStartup : MonoBehaviour
         _ecsWorld = new EcsWorld();
         _systems = new EcsSystems(_ecsWorld);
 
+        Injects();
+        OneFrames();
+        AddSystems();
+        _systems.Init();
+    }       
+
+    private void Injects()
+    {
         _systems
-            .Inject(_userInputConfig)
-            .Inject(_balloonConfig)
-            .Inject(_levelConfig)
-            .Inject(_enemiesConfig)
-            
+           .Inject(_userInputConfig)
+           .Inject(_balloonConfig)
+           .Inject(_levelConfig)
+           .Inject(_enemiesConfig);
+    }
+
+    private void OneFrames()
+    {
+        _systems
             .OneFrame<ChangeLineCommand>()
             .OneFrame<LineChangedEvent>()
+            .OneFrame<MoveStoppedEvent>()
+            .OneFrame<RestartedEvent>()
+            .OneFrame<ColorChangeCommand>();
+    }
 
+    private void AddSystems()
+    {
+        _systems
+            .Add(new BackgroundInitSystem())
             .Add(new BalloonInitSystem())
             .Add(new GroundInitSystem())
             .Add(new UserInputSystem())
@@ -32,9 +52,12 @@ public class EcsStartup : MonoBehaviour
             .Add(new LineChangeHandlerSystem())
             .Add(new MoveSystem())
             .Add(new SpawnEnemiesSystem())
-
-            .Init();
-    }       
+            .Add(new StopMoveSystem())
+            .Add(new EnemyMoveStoppedHandlerSystem())
+            .Add(new PlayerDiedEventHandler())
+            .Add(new RestartEnemiesSystem())
+            .Add(new RestartGroundSystem());
+    }
 
     private void Update()
     {
